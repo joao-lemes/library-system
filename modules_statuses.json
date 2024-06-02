@@ -1,0 +1,6 @@
+{
+    "User": true,
+    "Author": true,
+    "Book": true,
+    "Loan": true
+}
