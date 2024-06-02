@@ -18,12 +18,12 @@ class UserController extends Controller
 
     public function storeAction(RegisterUserRequest $request): JsonResponse
     {
-        $this->userService->store(
+        $output = $this->userService->store(
             $request->get('name'),
             $request->get('email'),
             $request->get('password')
         );
     
-        return response()->json(compact('user', 'token'), JsonResponse::HTTP_CREATED);
+        return response()->json($output, JsonResponse::HTTP_CREATED);
     }
 }
