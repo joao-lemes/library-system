@@ -16,10 +16,10 @@ use Modules\User\Http\Controllers\UserController;
  *
 */
 
-Route::post('user/register', [UserController::class, 'storeAction']);
-Route::post('login', [AuthController::class, 'loginAction']);
+Route::post('user/', [UserController::class, 'storeAction'])->name('user.store');
+Route::post('login', [AuthController::class, 'loginAction'])->name('login');
 
 Route::middleware(JwtMiddleware::class)->group(function () {
-    Route::post('logout', [AuthController::class, 'logoutAction']);
-    Route::get('user/me', [AuthController::class, 'getAuthenticatedUserAction']);
+    Route::post('logout', [AuthController::class, 'logoutAction'])->name('logout');
+    Route::get('user/me', [AuthController::class, 'getAuthenticatedUserAction'])->name('user.me');
 });

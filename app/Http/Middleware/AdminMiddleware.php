@@ -12,7 +12,7 @@ class AdminMiddleware
     /** @return Response|RedirectResponse */
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->check() || auth()->user()->is_admin) {
+        if (!auth()->check() || !auth()->user()->is_admin) {
             throw new ForbiddenException();
             
         }

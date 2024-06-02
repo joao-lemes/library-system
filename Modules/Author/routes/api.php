@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\JwtMiddleware;
 use Illuminate\Support\Facades\Route;
 use Modules\Author\Http\Controllers\AuthorController;
 
@@ -14,6 +16,12 @@ use Modules\Author\Http\Controllers\AuthorController;
  *
 */
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('author', AuthorController::class)->names('author');
+Route::prefix('author')->middleware(JwtMiddleware::class)->name('author.')->group(function () {
+    Route::middleware(AdminMiddleware::class)->group(function () {
+        Route::post('/', [AuthorController::class, 'storeAction'])->name('store');
+        Route::put('/{id}', [AuthorController::class, 'updateAction'])->name('update');
+        Route::delete('/{id}', [AuthorController::class, 'destroyAction'])->name('destroy');
+    });
+    Route::get('/', [AuthorController::class, 'listAction'])->name('list');
+    Route::get('/{id}', [AuthorController::class, 'showAction'])->name('show');
 });

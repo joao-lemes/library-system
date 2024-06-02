@@ -27,19 +27,23 @@ abstract class JsonWebToken
 
     public static function decode(string $jwt): mixed
     {
-        list($base64UrlHeader, $base64UrlPayload, $base64UrlSignature) = explode('.', $jwt);
-
-        $payload = json_decode(Base64::decode($base64UrlPayload), true);
-
-        $signature = Base64::decode($base64UrlSignature);
-
-        $expectedSignature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, self::getSecret(), true);
-
-        if ($signature !== $expectedSignature) {
-            throw new BadRequestException(trans('exception.invalid_signature'));
+        try {
+            list($base64UrlHeader, $base64UrlPayload, $base64UrlSignature) = explode('.', $jwt);
+    
+            $payload = json_decode(Base64::decode($base64UrlPayload), true);
+    
+            $signature = Base64::decode($base64UrlSignature);
+    
+            $expectedSignature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, self::getSecret(), true);
+    
+            if ($signature !== $expectedSignature) {
+                throw new BadRequestException(trans('exception.invalid_signature'));
+            }
+    
+            return $payload;
+        } catch (\Throwable $th) {
+            throw new BadRequestException(trans('exception.invalid_signature'));            
         }
-
-        return $payload;
     }
 
     private static function getSecret() : string

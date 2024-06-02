@@ -228,6 +228,7 @@ return [
         'reference_point' => 'ponto de referência',
         'birthdate' => 'data de nascimento',
         'profile_image' => 'imagem de perfil',
+        'birth_date' => 'data de nascimento',
     ],
 
 ];

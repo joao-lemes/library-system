@@ -3,65 +3,56 @@
 namespace Modules\Author\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Modules\Author\Http\Requests\DestroyAuthorRequest;
+use Modules\Author\Http\Requests\RegisterAuthorRequest;
+use Modules\Author\Http\Requests\ShowAuthorRequest;
+use Modules\Author\Http\Requests\UpdateAuthorRequest;
+use Modules\Author\Services\AuthorService;
 
 class AuthorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $authorService;
+
+    public function __construct(AuthorService $authorService)
     {
-        return view('author::index');
+        $this->authorService = $authorService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function listAction(): JsonResponse
     {
-        return view('author::create');
+        $authors = $this->authorService->getAllAuthors();
+        return response()->json($authors, JsonResponse::HTTP_OK);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
-    {
-        //
+    public function storeAction(RegisterAuthorRequest $request): JsonResponse
+    {        
+        $output = $this->authorService->store(
+            $request->get('name'),
+            $request->get('birth_date')
+        );
+        return response()->json($output, JsonResponse::HTTP_CREATED);
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
+    public function showAction(ShowAuthorRequest $request): JsonResponse
     {
-        return view('author::show');
+        $output = $this->authorService->getAuthorById($request->id);
+        return response()->json($output, JsonResponse::HTTP_OK);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function updateAction(UpdateAuthorRequest $request): JsonResponse
     {
-        return view('author::edit');
+        $output = $this->authorService->update(
+            $request->id, 
+            $request->input('name'), 
+            $request->input('birth_date')
+        );
+        return response()->json($output, JsonResponse::HTTP_OK);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
+    public function destroyAction(DestroyAuthorRequest $request): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
+        $this->authorService->delete($request->id);
+        return response()->json(status: JsonResponse::HTTP_NO_CONTENT);
     }
 }
