@@ -49,9 +49,25 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+    rabbitmq:
+        hostname: "${APP_NAME}_rabbitmq"
+        image: "rabbitmq:3-management-alpine"
+        container_name: "${APP_NAME}_rabbitmq"
+        environment:
+            - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+            - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+        volumes:
+            - rmqdata:/var/lib/rabbitmq
+        ports:
+            - ${RABBITMQ_PORT}:5672
+            - ${RABBITMQ_PORT_HTTPS}:15672
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge
 volumes:
     sail-mysql:
         driver: local
+    rmqdata:
+        name: ${APP_NAME}_rmq_vol

@@ -3,13 +3,15 @@
 namespace Modules\Loan\Services;
 
 use App\Services\Cryptography\JsonWebToken;
+use Modules\Loan\Jobs\SendLoanNotificationJob;
 use Modules\Loan\Repositories\LoanRepository;
 use Modules\Loan\Transformers\OutputLoan;
 use Modules\Loan\Transformers\OutputLoanCollection;
 
 class LoanService
 {
-    protected $loanRepository;
+    private const SEND_LOAN_NOTIFICATION_NAME = "send_loan_notification";
+    protected LoanRepository $loanRepository;
 
     public function __construct(LoanRepository $loanRepository)
     {
@@ -30,10 +32,14 @@ class LoanService
 
     public function store(string $userId, string $bookId): OutputLoan
     {
-        return new OutputLoan($this->loanRepository->create(
+        $loan = $this->loanRepository->create(
             JsonWebToken::decode($userId), 
             JsonWebToken::decode($bookId)
-        ));
+        );
+        SendLoanNotificationJob::dispatch($loan)
+            ->onQueue(self::SEND_LOAN_NOTIFICATION_NAME);
+
+        return new OutputLoan($loan);
     }
 
     public function returnLoan(string $id): OutputLoan

@@ -86,6 +86,13 @@ docker-compose exec app php artisan migrate:rollback --step=1
 docker-compose exec app vendor/bin/phpunit
 ```
 
+### Executar fila
+
+## Enviar notificações de empréstimos
+```
+docker-compose exec app php artisan queue:work --queue=send_loan_notification
+```
+
 ## Links úteis
 
 ### RabbitMQ
