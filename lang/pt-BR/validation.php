@@ -231,6 +231,8 @@ return [
         'birth_date' => 'data de nascimento',
         'year_of_publication' => 'ano de publicação',
         'author_ids' => 'autores',
+        'book_id' => 'livro',
+        'user_id' => 'usuário',
     ],
 
 ];

@@ -8,6 +8,7 @@ return [
         'user' => 'User not found',
         'author' => 'Author not found',
         'book' => 'Book not found',
+        'loan' => 'Loan not found',
     ],
     'bad_request' => [
         'default' => 'Bad request',
@@ -25,8 +26,7 @@ return [
         'invalid_method' => 'Invalid method',
     ],
 
-    
-    'existing_email_for_this_institution' => 'Existing email for this institution',
+    'loan_already_been_returned' => 'Loan has already been returned',
 
     'and_more_error' => '(and :amount more error)',
     'and_more_errors' => '(and :amount more errors)',

@@ -14,6 +14,3 @@ use Modules\Loan\Http\Controllers\LoanController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('loan', LoanController::class)->names('loan');
-});

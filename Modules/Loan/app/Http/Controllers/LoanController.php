@@ -3,65 +3,45 @@
 namespace Modules\Loan\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Modules\Loan\Http\Requests\RegisterLoanRequest;
+use Modules\Loan\Http\Requests\ReturnLoanRequest;
+use Modules\Loan\Http\Requests\ShowLoanRequest;
+use Modules\Loan\Services\LoanService;
 
 class LoanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $loanService;
+
+    public function __construct(LoanService $loanService)
     {
-        return view('loan::index');
+        $this->loanService = $loanService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function listAction(): JsonResponse
     {
-        return view('loan::create');
+        $output = $this->loanService->getAllLoans();
+        return response()->json($output, JsonResponse::HTTP_OK);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
+    public function storeAction(RegisterLoanRequest $request): JsonResponse
     {
-        //
+        $output = $this->loanService->store(
+            $request->get('user_id'),
+            $request->get('book_id')
+        );
+        return response()->json($output, JsonResponse::HTTP_CREATED);
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
+    public function showAction(ShowLoanRequest $request): JsonResponse
     {
-        return view('loan::show');
+        $output = $this->loanService->getLoanById($request->id);
+        return response()->json($output, JsonResponse::HTTP_OK);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function returnLoanAction(ReturnLoanRequest $request): JsonResponse
     {
-        return view('loan::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
+        $output = $this->loanService->returnLoan($request->id);
+        return response()->json($output, JsonResponse::HTTP_OK);
     }
 }

@@ -13,7 +13,3 @@ use Modules\User\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::group([], function () {
-    Route::resource('user', UserController::class)->names('user');
-});

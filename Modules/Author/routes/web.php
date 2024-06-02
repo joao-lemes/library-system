@@ -13,7 +13,3 @@ use Modules\Author\Http\Controllers\AuthorController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::group([], function () {
-    Route::resource('author', AuthorController::class)->names('author');
-});

@@ -5,9 +5,11 @@ namespace Modules\Book\Models;
 use App\Services\Cryptography\JsonWebToken;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use JsonSerializable;
 use Modules\Author\Models\Author;
+use Modules\Loan\Models\Loan;
 
 class Book extends Model implements JsonSerializable
 {
@@ -21,6 +23,11 @@ class Book extends Model implements JsonSerializable
     public function authors(): BelongsToMany
     {
         return $this->belongsToMany(Author::class, 'author_book');
+    }
+
+    public function loans(): HasMany
+    {
+        return $this->hasMany(Loan::class);
     }
     
     /** @return array<mixed> */

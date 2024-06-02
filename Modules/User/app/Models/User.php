@@ -6,9 +6,11 @@ use App\Services\Cryptography\JsonWebToken;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use JsonSerializable;
+use Modules\Loan\Models\Loan;
 use Modules\User\Database\Factories\UserFactory;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -74,6 +76,11 @@ class User extends Model implements Authenticatable, JWTSubject, JsonSerializabl
     public static function newFactory()
     {
         return UserFactory::new();
+    }
+    
+    public function loans(): HasMany
+    {
+        return $this->hasMany(Loan::class);
     }
 
     /** @return array<mixed> */
