@@ -21,8 +21,8 @@ class AuthorController extends Controller
 
     public function listAction(): JsonResponse
     {
-        $authors = $this->authorService->getAllAuthors();
-        return response()->json($authors, JsonResponse::HTTP_OK);
+        $output = $this->authorService->getAllAuthors();
+        return response()->json($output, JsonResponse::HTTP_OK);
     }
 
     public function storeAction(RegisterAuthorRequest $request): JsonResponse

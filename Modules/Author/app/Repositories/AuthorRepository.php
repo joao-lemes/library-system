@@ -25,25 +25,29 @@ class AuthorRepository
         return $this->model->find($id);
     }
 
-    public function create(string $name = null, string $birth_date = null): Author
+    public function create(string $name = null, string $birthDate = null): Author
     {
         return $this->model->create([
             'name' => $name,
-            'birth_date' => $birth_date,
+            'birth_date' => $birthDate,
         ]);
     }
 
     public function update(
         int $id, 
         ?string $name = null, 
-        ?string $birth_date = null
+        ?string $birthDate = null
     ): Author {
         if (!$author = $this->model->find($id)) {
             throw new NotFoundException(trans('exception.not_found.author'));
         }
-        $author->update(
-            array_filter(compact('name', 'birth_date'), fn($value) => !is_null($value))
-        );
+        
+        $data = array_filter([
+            'name' => $name,
+            'birth_date' => $birthDate
+        ], fn($value) => !is_null($value));
+        $author->update($data);
+
         return $author;
     }
 

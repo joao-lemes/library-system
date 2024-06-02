@@ -32,7 +32,7 @@ abstract class OutputSuccess extends JsonResource
             "links" => $this->paginationLinks(),
             "next_page_url" => $this->resource->nextPageUrl(),
             "path" => $this->resource->path(),
-            "per_page" => $this->resource->count(),
+            "per_page" => $this->resource->perPage(),
             "prev_page_url" => $this->resource->previousPageUrl(),
             "total" => $this->resource->total()
         ];

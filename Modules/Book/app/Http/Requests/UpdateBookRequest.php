@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Author\Http\Requests;
+namespace Modules\Book\Http\Requests;
 
 use App\Http\Requests\BaseRequest;
-use Carbon\Carbon;
 use Illuminate\Validation\Rule;
 use Modules\Author\Rules\AuthorExistsRule;
+use Modules\Book\Rules\BookExistsRule;
 
-class UpdateAuthorRequest extends BaseRequest
+class UpdateBookRequest extends BaseRequest
 {
     public function authorize(): bool
     {
@@ -18,17 +18,15 @@ class UpdateAuthorRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'name' => [
-                'required',
+            'title' => [
+                'sometimes',
                 'string',
                 'max:255',
-                Rule::unique('authors')->whereNull('deleted_at'),
+                Rule::unique('books')->whereNull('deleted_at'),
             ],
-            'birth_date' => [
-                'sometimes',
-                'date',
-                'before_or_equal:' . Carbon::now()->subYears(10)->format('Y-m-d'),
-            ],
+            'year_of_publication' => 'sometimes | date_format:Y',
+            'author_ids' => 'sometimes | array',
+            'author_ids.*' => ['required', 'string', new AuthorExistsRule]
         ];
     }
 
@@ -39,7 +37,7 @@ class UpdateAuthorRequest extends BaseRequest
         $validator = \Illuminate\Support\Facades\Validator::make([
             'id' => $this->id
         ], [
-            'id' => ['required', 'string', new AuthorExistsRule],
+            'id' => ['required', 'string', new BookExistsRule],
         ]);
 
         if ($validator->fails()) {

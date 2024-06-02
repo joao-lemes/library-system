@@ -229,6 +229,8 @@ return [
         'birthdate' => 'data de nascimento',
         'profile_image' => 'imagem de perfil',
         'birth_date' => 'data de nascimento',
+        'year_of_publication' => 'ano de publicação',
+        'author_ids' => 'autores',
     ],
 
 ];

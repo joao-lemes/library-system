@@ -3,65 +3,58 @@
 namespace Modules\Book\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Modules\Book\Http\Requests\DestroyBookRequest;
+use Modules\Book\Http\Requests\RegisterBookRequest;
+use Modules\Book\Http\Requests\ShowBookRequest;
+use Modules\Book\Http\Requests\UpdateBookRequest;
+use Modules\Book\Services\BookService;
 
 class BookController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $bookService;
+
+    public function __construct(BookService $bookService)
     {
-        return view('book::index');
+        $this->bookService = $bookService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function listAction(): JsonResponse
     {
-        return view('book::create');
+        $output = $this->bookService->getAllBooks();
+        return response()->json($output, JsonResponse::HTTP_OK);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
+    public function storeAction(RegisterBookRequest $request): JsonResponse
     {
-        //
+        $output = $this->bookService->store(
+            $request->get('title'),
+            $request->get('year_of_publication'),
+            $request->get('author_ids')
+        );
+        return response()->json($output, JsonResponse::HTTP_CREATED);
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
+    public function showAction(ShowBookRequest $request): JsonResponse
     {
-        return view('book::show');
+        $output = $this->bookService->getBookById($request->id);
+        return response()->json($output, JsonResponse::HTTP_OK);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function updateAction(UpdateBookRequest $request): JsonResponse
     {
-        return view('book::edit');
+        $output = $this->bookService->update(
+            $request->id, 
+            $request->get('title'),
+            $request->get('year_of_publication'),
+            $request->get('author_ids')
+        );
+        return response()->json($output, JsonResponse::HTTP_OK);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
+    public function destroyAction(DestroyBookRequest $request): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
+        $this->bookService->delete($request->id);
+        return response()->json(status: JsonResponse::HTTP_NO_CONTENT);
     }
 }

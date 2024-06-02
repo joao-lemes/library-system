@@ -7,6 +7,7 @@ return [
         'default' => 'Item not found',
         'user' => 'User not found',
         'author' => 'Author not found',
+        'book' => 'Book not found',
     ],
     'bad_request' => [
         'default' => 'Bad request',

@@ -1,36 +1,37 @@
 <?php
 
-namespace Modules\Author\Models;
+namespace Modules\Book\Models;
 
 use App\Services\Cryptography\JsonWebToken;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use JsonSerializable;
-use Modules\Book\Models\Book;
+use Modules\Author\Models\Author;
 
-class Author extends Model implements JsonSerializable
+class Book extends Model implements JsonSerializable
 {
     use SoftDeletes;
 
     /** @var array<string> $fillable */
     protected $fillable = [
-        'name', 'birth_date'
+        'title', 'year_of_publication'
     ];
-    
-    public function books(): BelongsToMany
-    {
-        return $this->belongsToMany(Book::class, 'author_book');
-    }
 
+    public function authors(): BelongsToMany
+    {
+        return $this->belongsToMany(Author::class, 'author_book');
+    }
+    
     /** @return array<mixed> */
     public function jsonSerialize(): array
     {
         $id = JsonWebToken::encode($this->id);
         return [
             'id' => $id,
-            'name' => $this->name,
-            'birth_date' => $this->birth_date,
+            'title' => $this->title,
+            'year_of_publication' => $this->year_of_publication,
+            'authors' => $this->authors()->get(),
             'created_at' => $this->created_at ? $this->created_at->format('d/m/Y H:i:s') : null, 
             'updated_at' => $this->updated_at ? $this->updated_at->format('d/m/Y H:i:s') : null, 
             'deleted_at' => $this->deleted_at ? $this->deleted_at->format('d/m/Y H:i:s') : null,
@@ -38,22 +39,22 @@ class Author extends Model implements JsonSerializable
                 [
                     'rel' => 'self',
                     'method' => 'GET',
-                    'href' => route('api.author.show', $id),
+                    'href' => route('api.book.show', $id),
                 ],
                 [
                     'rel' => 'list',
                     'method' => 'GET',
-                    'href' => route('api.author.list'),
+                    'href' => route('api.book.list'),
                 ],
                 [
                     'rel' => 'update',
                     'method' => 'PUT',
-                    'href' => route('api.author.update', $id),
+                    'href' => route('api.book.update', $id),
                 ],
                 [
                     'rel' => 'delete',
                     'method' => 'DELETE',
-                    'href' => route('api.author.destroy', $id),
+                    'href' => route('api.book.destroy', $id),
                 ],
             ],
         ];

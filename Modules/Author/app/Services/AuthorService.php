@@ -28,16 +28,16 @@ class AuthorService
         );
     }
 
-    public function store(string $name, string $birth_date): OutputAuthor
+    public function store(string $name, string $birthDate): OutputAuthor
     {
-        $author = $this->authorRepository->create($name, $birth_date);
+        $author = $this->authorRepository->create($name, $birthDate);
         return new OutputAuthor($author);
     }
 
-    public function update(string $id, ?string $name, ?string $birth_date): OutputAuthor
+    public function update(string $id, ?string $name, ?string $birthDate): OutputAuthor
     {
         return new OutputAuthor($this->authorRepository->update(
-            JsonWebToken::decode($id), $name, $birth_date
+            JsonWebToken::decode($id), $name, $birthDate
         ));
     }
 
