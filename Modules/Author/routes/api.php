@@ -16,12 +16,13 @@ use Modules\Author\Http\Controllers\AuthorController;
  *
 */
 
-Route::prefix('author')->middleware(JwtMiddleware::class)->name('author.')->group(function () {
-    Route::middleware(AdminMiddleware::class)->group(function () {
-        Route::post('/', [AuthorController::class, 'storeAction'])->name('store');
-        Route::put('/{id}', [AuthorController::class, 'updateAction'])->name('update');
-        Route::delete('/{id}', [AuthorController::class, 'destroyAction'])->name('destroy');
-    });
-    Route::get('/', [AuthorController::class, 'listAction'])->name('list');
-    Route::get('/{id}', [AuthorController::class, 'showAction'])->name('show');
+Route::prefix('author')->controller(AuthorController::class)->name('author.')
+    ->middleware(JwtMiddleware::class)->group(function () {
+        Route::middleware(AdminMiddleware::class)->group(function () {
+            Route::post('/', 'storeAction')->name('store');
+            Route::put('/{id}', 'updateAction')->name('update');
+            Route::delete('/{id}', 'destroyAction')->name('destroy');
+        });
+        Route::get('/', 'listAction')->name('list');
+        Route::get('/{id}', 'showAction')->name('show');
 });

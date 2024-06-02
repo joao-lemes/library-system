@@ -16,9 +16,10 @@ use Modules\Loan\Http\Controllers\LoanController;
  *
 */
 
-Route::prefix('loan')->middleware(JwtMiddleware::class, AdminMiddleware::class)->name('loan.')->group(function () {
-    Route::post('/', [LoanController::class, 'storeAction'])->name('store');
-    Route::put('/return/{id}', [LoanController::class, 'returnLoanAction'])->name('return');
-    Route::get('/', [LoanController::class, 'listAction'])->name('list');
-    Route::get('/{id}', [LoanController::class, 'showAction'])->name('show');
+Route::prefix('loan')->controller(LoanController::class)->name('loan.')
+    ->middleware(JwtMiddleware::class, AdminMiddleware::class)->group(function () {
+        Route::post('/', 'storeAction')->name('store');
+        Route::put('/return/{id}', 'returnLoanAction')->name('return');
+        Route::get('/', 'listAction')->name('list');
+        Route::get('/{id}', 'showAction')->name('show');
 });

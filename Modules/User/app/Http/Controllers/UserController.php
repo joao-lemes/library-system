@@ -16,6 +16,12 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
+    public function listAction(): JsonResponse
+    {
+        $output = $this->userService->getAllUsers();
+        return response()->json($output, JsonResponse::HTTP_OK);
+    }
+
     public function storeAction(RegisterUserRequest $request): JsonResponse
     {
         $output = $this->userService->store(

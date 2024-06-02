@@ -16,12 +16,13 @@ use Modules\Book\Http\Controllers\BookController;
  *
 */
 
-Route::prefix('book')->middleware(JwtMiddleware::class)->name('book.')->group(function () {
-    Route::middleware(AdminMiddleware::class)->group(function () {
-        Route::post('/', [BookController::class, 'storeAction'])->name('store');
-        Route::put('/{id}', [BookController::class, 'updateAction'])->name('update');
-        Route::delete('/{id}', [BookController::class, 'destroyAction'])->name('destroy');
-    });
-    Route::get('/', [BookController::class, 'listAction'])->name('list');
-    Route::get('/{id}', [BookController::class, 'showAction'])->name('show');
+Route::prefix('book')->controller(BookController::class)->name('book.')
+    ->middleware(JwtMiddleware::class)->group(function () {
+        Route::middleware(AdminMiddleware::class)->group(function () {
+            Route::post('/', 'storeAction')->name('store');
+            Route::put('/{id}', 'updateAction')->name('update');
+            Route::delete('/{id}', 'destroyAction')->name('destroy');
+        });
+        Route::get('/', 'listAction')->name('list');
+        Route::get('/{id}', 'showAction')->name('show');
 });

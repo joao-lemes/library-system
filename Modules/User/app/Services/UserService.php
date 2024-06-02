@@ -4,6 +4,7 @@ namespace Modules\User\Services;
 
 use Illuminate\Support\Facades\Hash;
 use Modules\User\Repositories\UserRepository;
+use Modules\User\Transformers\OutputUserCollection;
 use Modules\User\Transformers\OutputUserRegister;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -14,6 +15,11 @@ class UserService
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
+    }
+
+    public function getAllUsers(): OutputUserCollection
+    {
+        return new OutputUserCollection($this->userRepository->all());
     }
 
     public function store(

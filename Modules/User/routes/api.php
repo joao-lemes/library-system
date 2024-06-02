@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\JwtMiddleware;
 use Illuminate\Support\Facades\Route;
 use Modules\User\Http\Controllers\AuthController;
@@ -16,10 +17,17 @@ use Modules\User\Http\Controllers\UserController;
  *
 */
 
-Route::post('user/', [UserController::class, 'storeAction'])->name('user.store');
-Route::post('login', [AuthController::class, 'loginAction'])->name('login');
+Route::prefix('user')->controller(UserController::class)->name('user.')->group(function () {
+    Route::post('/', 'storeAction')->name('store');
+    Route::middleware(JwtMiddleware::class, AdminMiddleware::class)->group(function () {
+        Route::get('/', 'listAction')->name('list');
+    });
+});
 
-Route::middleware(JwtMiddleware::class)->group(function () {
-    Route::post('logout', [AuthController::class, 'logoutAction'])->name('logout');
-    Route::get('user/me', [AuthController::class, 'getAuthenticatedUserAction'])->name('user.me');
+Route::controller(AuthController::class)->group(function () {
+    Route::post('login', 'loginAction')->name('login');
+    Route::middleware(JwtMiddleware::class)->group(function () {
+        Route::post('logout', 'logoutAction')->name('logout');
+        Route::get('me', 'getAuthenticatedUserAction')->name('me');
+    });
 });
