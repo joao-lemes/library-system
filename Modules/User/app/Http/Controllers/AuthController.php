@@ -9,7 +9,7 @@ use Modules\User\Services\AuthService;
 
 class AuthController extends Controller
 {
-    protected $authService;
+    protected AuthService $authService;
 
     public function __construct(AuthService $authService)
     {

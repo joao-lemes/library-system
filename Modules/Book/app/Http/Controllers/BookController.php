@@ -12,7 +12,7 @@ use Modules\Book\Services\BookService;
 
 class BookController extends Controller
 {
-    protected $bookService;
+    protected BookService $bookService;
 
     public function __construct(BookService $bookService)
     {

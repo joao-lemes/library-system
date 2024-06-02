@@ -9,7 +9,7 @@ use Modules\User\Services\UserService;
 
 class UserController extends Controller
 {
-    protected $userService;
+    protected UserService $userService;
 
     public function __construct(UserService $userService)
     {

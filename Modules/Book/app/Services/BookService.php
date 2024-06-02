@@ -9,7 +9,7 @@ use Modules\Book\Transformers\OutputBookCollection;
 
 class BookService
 {
-    protected $bookRepository;
+    protected BookRepository $bookRepository;
 
     public function __construct(BookRepository $bookRepository)
     {

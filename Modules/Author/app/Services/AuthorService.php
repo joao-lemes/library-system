@@ -9,7 +9,7 @@ use Modules\Author\Transformers\OutputAuthorCollection;
 
 class AuthorService
 {
-    protected $authorRepository;
+    protected AuthorRepository $authorRepository;
 
     public function __construct(AuthorRepository $authorRepository)
     {

@@ -12,7 +12,7 @@ use Modules\Author\Services\AuthorService;
 
 class AuthorController extends Controller
 {
-    protected $authorService;
+    protected AuthorService $authorService;
 
     public function __construct(AuthorService $authorService)
     {
