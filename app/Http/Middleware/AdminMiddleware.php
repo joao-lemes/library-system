@@ -2,21 +2,19 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\UnauthorizedException;
+use App\Exceptions\ForbiddenException;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
-class JwtMiddleware
+class AdminMiddleware
 {
     /** @return Response|RedirectResponse */
     public function handle(Request $request, Closure $next)
     {
-        try {
-            JWTAuth::parseToken()->authenticate();
-        } catch (\Exception $e) {
-            throw new UnauthorizedException();
+        if (!auth()->check() || auth()->user()->is_admin) {
+            throw new ForbiddenException();
+            
         }
 
         return $next($request);

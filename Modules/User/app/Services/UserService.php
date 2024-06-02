@@ -4,8 +4,6 @@ namespace Modules\User\Services;
 
 use Illuminate\Support\Facades\Hash;
 use Modules\User\Repositories\UserRepository;
-use Modules\User\Transformers\OutputLogin;
-use Modules\User\Transformers\OutputUser;
 use Modules\User\Transformers\OutputUserRegister;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
