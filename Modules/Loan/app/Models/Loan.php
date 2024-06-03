@@ -3,14 +3,18 @@
 namespace Modules\Loan\Models;
 
 use App\Services\Cryptography\JsonWebToken;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use JsonSerializable;
 use Modules\Book\Models\Book;
+use Modules\Loan\Database\Factories\LoanFactory;
 use Modules\User\Models\User;
 
 class Loan extends Model implements JsonSerializable
 {
+    use HasFactory;
+    
     /** @var array<string> $fillable */
     protected $fillable = [
         'user_id', 
@@ -24,6 +28,11 @@ class Loan extends Model implements JsonSerializable
         'loan_date' => 'date:Y-m-d',
         'return_date' => 'date:Y-m-d',
     ];
+    
+    public static function newFactory()
+    {
+        return LoanFactory::new();
+    }
 
     public function book(): BelongsTo
     {
