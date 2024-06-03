@@ -60,10 +60,8 @@ docker-compose exec app php artisan db:seed
 ### Adicionar permissão para a pasta storage
 
 ```
-sudo chmod 777 -R backend/storage/
+sudo chmod 777 -R storage/
 ```
-
-## Comandos extras
 
 ### Limpar o cache
 
@@ -72,6 +70,8 @@ docker-compose exec app php artisan config:clear
 docker-compose exec app php artisan config:cache
 docker-compose exec app php artisan cache:clear
 ```
+
+## Comandos extras
 
 ### Rollback no banco de dados
 
