@@ -152,7 +152,7 @@ class LoanControllerTest extends TestCase
         $this->assertEquals($loan->id, $decodedId);
         $this->assertDatabaseHas('loans', [
             'id' => $loan->id,
-            'return_date' => now()->toDateString(),
+            'return_date' => now()->toDateTime(),
         ]);
     }
 }
