@@ -7,6 +7,7 @@ Projeto para gerenciamento de uma biblioteca
 
 ```
 PHP: 8.3
+Nginx: 1.25
 Laravel: 11.9
 Mysql: 8.0
 RabbitMQ: 3.0
