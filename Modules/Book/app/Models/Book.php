@@ -3,22 +3,29 @@
 namespace Modules\Book\Models;
 
 use App\Services\Cryptography\JsonWebToken;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use JsonSerializable;
 use Modules\Author\Models\Author;
+use Modules\Book\Database\Factories\BookFactory;
 use Modules\Loan\Models\Loan;
 
 class Book extends Model implements JsonSerializable
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     /** @var array<string> $fillable */
     protected $fillable = [
         'title', 'year_of_publication'
     ];
+    
+    public static function newFactory()
+    {
+        return BookFactory::new();
+    }
 
     public function authors(): BelongsToMany
     {

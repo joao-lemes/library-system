@@ -20,14 +20,14 @@ class Author extends Model implements JsonSerializable
         'name', 'birth_date'
     ];
     
-    public function books(): BelongsToMany
-    {
-        return $this->belongsToMany(Book::class, 'author_book');
-    }
-    
     public static function newFactory()
     {
         return AuthorFactory::new();
+    }
+    
+    public function books(): BelongsToMany
+    {
+        return $this->belongsToMany(Book::class, 'author_book');
     }
 
     /** @return array<mixed> */

@@ -2,6 +2,7 @@
 
 namespace Modules\User\Tests\Unit;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
@@ -15,6 +16,8 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserServiceTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected UserService $userService;
     protected $userRepository;
 
