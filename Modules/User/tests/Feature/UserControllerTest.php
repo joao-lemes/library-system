@@ -3,8 +3,8 @@
 namespace Modules\User\Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Modules\User\Models\User;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -16,7 +16,7 @@ class UserControllerTest extends TestCase
     {
         $admin = User::factory()->create([
             'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
+            'password' => Hash::make('password'),
             'is_admin' => true,
         ]);
 
